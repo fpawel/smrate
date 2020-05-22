@@ -2,6 +2,6 @@
 build/*
 !build/assets/
 !build/lua
-!build/sensel.exe.manifest
+!build/*.manifest
 internal/thriftgen
 internal/data/sql_create_generated.go
