@@ -12,57 +12,57 @@ type task struct {
 	Str   string
 
 	edHour, edMin, edSec *walk.NumberEdit
-	pb *walk.ProgressBar
+	pb                   *walk.ProgressBar
 }
 
 func (x *app) initTasks() {
-	x.drainTasks = []*task {
+	x.drainTasks = []*task{
 		{
-			Valve: 0b1010010000,
+			Valve: 0b011010010000,
 			Dur:   5 * sec,
 			Str:   "Слив остатков нефти",
 		},
 		{
-			Valve: 0b0001111000,
+			Valve: 0b000001111000,
 			Dur:   5 * sec,
 			Str:   "Продувка азотом барбатера",
 		},
 	}
-	x.tasks = append( []* task {
+	x.tasks = append([]*task{
 		{
-			Valve: 0b0001001110,
+			Valve: 0b010001001110,
 			Dur:   4 * sec,
 			Str:   "Стадия заполнения",
 		},
 		{
-			Valve: 0b0010010001,
+			Valve: 0b010010010001,
 			Dur:   5 * sec,
 			Str:   "Избыток нефти вытесняется в дренажную емкость",
 		},
 		{
-			Valve: 0b0010001001,
+			Valve: 0b010010001001,
 			Dur:   5 * sec,
 			Str:   "Продувка трубки",
 		},
 		{
-			Valve: 0b0001001000,
+			Valve: 0b010001001000,
 			Dur:   5 * sec,
 			Str:   "Сброс избыточного давления",
 		},
 		{
-			Valve: 0b0000000000,
+			Valve: 0b010000000000,
 			Dur:   15 * sec,
 			Str:   "Подогрев нефти",
 		},
 		{
-			Valve: 0b0100101000,
+			Valve: 0b000100101000,
 			Dur:   5 * sec,
 			Str:   "Барботирование азота",
 		},
 	}, x.drainTasks...)
 	m := cfg.Get().Dur
-	for _,t := range x.tasks{
-		if d,f := m[t.Str]; f {
+	for _, t := range x.tasks {
+		if d, f := m[t.Str]; f {
 			t.Dur = d
 		}
 	}
