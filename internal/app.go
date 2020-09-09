@@ -22,8 +22,8 @@ type app struct {
 	btnCloseAllValves,
 	btnStop *walk.PushButton
 	labelStatusWork *walk.LineEdit
-	labelError *walk.TextEdit
-	panelError *walk.Composite
+	labelError      *walk.TextEdit
+	panelError      *walk.Composite
 
 	ctx    context.Context
 	cancel context.CancelFunc
@@ -63,10 +63,10 @@ func (x *app) mainWindow() MainWindow {
 					},
 					comboBoxComport.Combobox(),
 					PushButton{
-						AssignTo:  &x.btnRun,
-						Text:      " Пробоотбор",
-						MaxSize:   Size{Width: 140},
-						Image: "assets/img/work25.png",
+						AssignTo: &x.btnRun,
+						Text:     " Пробоотбор",
+						MaxSize:  Size{Width: 140},
+						Image:    "assets/img/work25.png",
 						OnClicked: func() {
 							x.runWork("Отбор пробы", func(ctx context.Context) error {
 								return x.performTasks(ctx, x.tasks)
@@ -74,10 +74,10 @@ func (x *app) mainWindow() MainWindow {
 						},
 					},
 					PushButton{
-						AssignTo:  &x.btnLoop,
-						Text:      " Цикл",
-						Image: "assets/img/loop25.png",
-						MaxSize:   Size{Width: 120},
+						AssignTo: &x.btnLoop,
+						Text:     " Цикл",
+						Image:    "assets/img/loop25.png",
+						MaxSize:  Size{Width: 120},
 						OnClicked: func() {
 							x.runWork("Цикл отбора пробы", func(ctx context.Context) error {
 								for {
@@ -89,22 +89,23 @@ func (x *app) mainWindow() MainWindow {
 						},
 					},
 					PushButton{
-						AssignTo:  &x.btnDrain,
-						Text:      " Слив",
-						MaxSize:   Size{Width: 120},
-						Image: "assets/img/drain25.png",
-						OnClicked: func() {
-							x.runWork("Слив", func(ctx context.Context) error {
-								return x.performTasks(ctx, x.drainTasks)
-							})
+						AssignTo: &x.btnDrain,
+						Text:     " Слив",
+						MaxSize:  Size{Width: 120},
+						Image:    "assets/img/drain25.png",
+						OnClicked: func() { /*
+								x.runWork("Слив", func(ctx context.Context) error {
+									return x.performTasks(ctx, x.drainTasks)
+								})
+							*/
 						},
 					},
 					PushButton{
-						AssignTo:  &x.btnCloseAllValves,
-						Text:      " Закрытие",
-						MaxSize:   Size{Width: 140},
-						Image: "assets/img/close25.png",
-						OnClicked: func () {
+						AssignTo: &x.btnCloseAllValves,
+						Text:     " Закрытие",
+						MaxSize:  Size{Width: 140},
+						Image:    "assets/img/close25.png",
+						OnClicked: func() {
 							x.runWork("Закрытие клапанов", func(context.Context) error {
 								return x.setupValves(0)
 							})
@@ -118,13 +119,13 @@ func (x *app) mainWindow() MainWindow {
 						OnClicked: func() {
 							x.interruptWorkFunc()
 						},
-						Image:     "assets/img/cancel25.png",
+						Image: "assets/img/cancel25.png",
 					},
 					LineEdit{
 						AssignTo:  &x.labelStatusWork,
 						TextColor: walk.RGB(0, 0, 128),
 						ReadOnly:  true,
-						Visible: false,
+						Visible:   false,
 					},
 				},
 			},
@@ -154,29 +155,29 @@ func (x *app) mainWindow() MainWindow {
 	}
 }
 
-func (x *app) setupWidgetsRunSafeUI (run bool, workName string) {
+func (x *app) setupWidgetsRunSafeUI(run bool, workName string) {
 	x.w.Synchronize(func() {
 		x.setupWidgetsRun(run, workName)
 	})
 }
 
-func (x *app) setupWidgetsRun (run bool, workName string) {
-	for _,btn := range []*walk.PushButton{x.btnRun, x.btnCloseAllValves, x.btnDrain, x.btnLoop}{
+func (x *app) setupWidgetsRun(run bool, workName string) {
+	for _, btn := range []*walk.PushButton{x.btnRun, x.btnCloseAllValves, x.btnDrain, x.btnLoop} {
 		btn.SetVisible(!run)
 	}
 	x.btnStop.SetVisible(run)
-	_ = x.labelStatusWork.SetText( fmt.Sprintf("%s %s: ", time.Now().Format("15:04:05"), workName) )
+	_ = x.labelStatusWork.SetText(fmt.Sprintf("%s %s: ", time.Now().Format("15:04:05"), workName))
 	s := "выполнение окончено"
 	if run {
 		x.panelError.SetVisible(false)
 		s = "выполняется"
 	}
-	_ = x.labelStatusWork.SetText( x.labelStatusWork.Text() + s )
-	for _,t := range x.tasks{
+	_ = x.labelStatusWork.SetText(x.labelStatusWork.Text() + s)
+	for _, t := range x.tasks {
 		t.edSec.SetEnabled(!run)
 		t.edMin.SetEnabled(!run)
 		t.edHour.SetEnabled(!run)
-		if run{
+		if run {
 			t.pb.SetValue(0)
 		}
 	}
@@ -184,7 +185,7 @@ func (x *app) setupWidgetsRun (run bool, workName string) {
 
 }
 
-func (x *app) widgetsTasks() []Widget{
+func (x *app) widgetsTasks() []Widget {
 	xs := []Widget{
 		Label{
 			Text:   "час",
