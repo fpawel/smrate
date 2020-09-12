@@ -93,11 +93,10 @@ func (x *app) mainWindow() MainWindow {
 						Text:     " Слив",
 						MaxSize:  Size{Width: 120},
 						Image:    "assets/img/drain25.png",
-						OnClicked: func() { /*
-								x.runWork("Слив", func(ctx context.Context) error {
-									return x.performTasks(ctx, x.drainTasks)
-								})
-							*/
+						OnClicked: func() {
+							x.runWork("Слив", func(ctx context.Context) error {
+								return x.performTasks(ctx, x.drainTasks)
+							})
 						},
 					},
 					PushButton{

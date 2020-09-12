@@ -28,7 +28,7 @@ func (x *app) initTasks() {
 			Str:   "Барботирование и прокачивание через пробоотборную петлю",
 		},
 	}
-	x.tasks = append([]*task{
+	x.tasks = []*task{
 		{
 			Valve: 0b010100101000,
 			Dur:   4 * sec,
@@ -59,7 +59,7 @@ func (x *app) initTasks() {
 			Dur:   5 * sec,
 			Str:   "Сброс избыточного давления",
 		},
-	}, x.drainTasks...)
+	}
 	m := cfg.Get().Dur
 	for _, t := range x.tasks {
 		if d, f := m[t.Str]; f {
